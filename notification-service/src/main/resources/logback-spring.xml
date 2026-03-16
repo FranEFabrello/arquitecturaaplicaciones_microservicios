@@ -24,8 +24,8 @@
         </encoder>
     </appender>
 
-    <!-- Configuración de logging -->
-    <springProfile name="default">
+    <!-- Configuración por defecto (incluye rabbitmq y kafka) -->
+    <springProfile name="default | rabbitmq | kafka">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
