@@ -17,16 +17,19 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -e
+
+            echo "📂 Go to project folder"
             cd ~/arquitectura-tp/arquitecturaaplicaciones_microservicios
 
             echo "📥 Pull latest code"
             git pull origin main
 
-            echo "🛑 Stop containers"
-            docker compose down
+            echo "🔨 Build and recreate all containers"
+            docker compose up -d --build --force-recreate
 
-            echo "🔨 Rebuild ALL images"
-            docker compose build --no-cache
+            echo "📊 Running containers"
+            docker ps
 
-            echo "🚀 Start containers"
-            docker compose up -d
+            echo "🔍 Services registered in Eureka"
+            curl http://localhost:8761/eureka/apps || true
