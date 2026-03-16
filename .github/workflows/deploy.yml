@@ -18,6 +18,15 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/arquitectura-tp/arquitecturaaplicaciones_microservicios
+
+            echo "📥 Pull latest code"
             git pull origin main
+
+            echo "🛑 Stop containers"
             docker compose down
-            docker compose up -d --build
+
+            echo "🔨 Rebuild ALL images"
+            docker compose build --no-cache
+
+            echo "🚀 Start containers"
+            docker compose up -d
